@@ -116,15 +116,15 @@ public class Auth extends JFrame implements ActionListener{
 		try (Connection conn = DriverManager.getConnection(
 				"jdbc:oracle:thin:@localhost:1521:xe", username, password)) {
 			if (conn != null) {
-				disMessage("Success","Connected to the database!");
+				disMessage("Success","Connecté à la base de donnée");
 				conn.close();
 				return true;
 			} else {
-				disMessage("erreur","Failed to make connection!");
+				disMessage("erreur","Impossible de joindre la base de donnée");
 				return false;
 			}
 		} catch (SQLException e) {
-			disMessage("erreur",e.getMessage());
+			disMessage("erreur","L'identifiant ou le mot de passe est erroné");
 			return false;
 		} catch (Exception e) {
 			return false;
