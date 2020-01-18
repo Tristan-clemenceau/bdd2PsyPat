@@ -27,6 +27,7 @@ public class Auth extends JFrame implements ActionListener{
 	private JLabel lblNewLabel;
 	private JPasswordField passwordField;
 	private Connection conn = null;
+	private Home home;
 
 	public Auth() {
 		setResizable(false);
@@ -91,13 +92,13 @@ public class Auth extends JFrame implements ActionListener{
 		// TODO Auto-generated method stub
 		if(isFieldFill()) {
 			if(testConnexion(textField.getText(),passwordField.getText())) {
-				
+				this.conn = setConnection(textField.getText(),passwordField.getText());
+				home = new Home(this.conn);
+				home.setVisible(true);
 			}
 		}else {
 			disMessage("Erreur","Les champs doivent être Remplis");
 		}
-		//Home frame = new Home();
-		//frame.setVisible(true);	
 	}
 	
 	private boolean isFieldFill() {
@@ -127,6 +128,24 @@ public class Auth extends JFrame implements ActionListener{
 			return false;
 		} catch (Exception e) {
 			return false;
+		}
+	}
+	
+	private Connection setConnection(String username,String password) {
+		try (Connection conn = DriverManager.getConnection(
+				"jdbc:oracle:thin:@localhost:1521:xe", username, password)) {
+			if (conn != null) {
+				disMessage("Success","Connected to the database!");
+				return conn;
+			} else {
+				disMessage("erreur","Failed to make connection!");
+				return null;
+			}
+		} catch (SQLException e) {
+			disMessage("erreur",e.getMessage());
+			return null;
+		} catch (Exception e) {
+			return null;
 		}
 	}
 

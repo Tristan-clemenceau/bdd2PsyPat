@@ -1,28 +1,28 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JSplitPane;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Dimension;
+import java.sql.Connection;
+
 import javax.swing.JButton;
-import java.awt.GridLayout;
-import java.awt.CardLayout;
-import java.awt.Color;
-import javax.swing.JList;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JTextField;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import dao.DAOFactory;
 
 public class Home extends JFrame implements ActionListener{
 	/*Autre*/
@@ -59,11 +59,14 @@ public class Home extends JFrame implements ActionListener{
 	/*Jtable*/
 	private JTable table;
 	private JTable table_1;
+	/*DAO*/
+	Connection conn;
+	DAOFactory factory = new DAOFactory(null);
 
 	/**
 	 * Create the frame.
 	 */
-	public Home() {
+	public Home(Connection conn) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 971, 530);
 		contentPane = new JPanel();
@@ -204,6 +207,8 @@ public class Home extends JFrame implements ActionListener{
 		panel_5 = new JPanel();
 		panel_5.setBackground(Color.CYAN);
 		panel_1.add(panel_5, "panel_5");
+		
+		this.conn = conn;
 	}
 
 	@Override
