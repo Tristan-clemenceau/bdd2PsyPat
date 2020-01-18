@@ -27,7 +27,8 @@ public class Auth extends JFrame implements ActionListener{
 	private JLabel lblNewLabel;
 	private JPasswordField passwordField;
 	private Connection conn = null;
-	private HomePatient home;
+	private HomePatient homePatient;
+	private HomePsy homePsy;
 
 	public Auth() {
 		setResizable(false);
@@ -93,8 +94,14 @@ public class Auth extends JFrame implements ActionListener{
 		if(isFieldFill()) {
 			if(testConnexion(textField.getText(),passwordField.getText())) {
 				this.conn = setConnection(textField.getText(),passwordField.getText());
-				home = new HomePatient(this.conn);
-				home.setVisible(true);
+				
+				if(textField.getText().toLowerCase().equals("psyuser")) {//psy
+					homePsy = new HomePsy(this.conn);
+					homePsy.setVisible(true);
+				}else {
+					homePatient = new HomePatient(this.conn);
+					homePatient.setVisible(true);
+				}
 			}
 		}else {
 			disMessage("Erreur","Les champs doivent être Remplis");

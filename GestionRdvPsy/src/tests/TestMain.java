@@ -10,7 +10,7 @@ import view.Auth;
 public class TestMain {
 
 	public static void main(String[] args) {
-		test02();
+		test01();
 	}
 	
 	public static void test01() {
