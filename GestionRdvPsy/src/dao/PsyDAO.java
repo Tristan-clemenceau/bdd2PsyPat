@@ -34,5 +34,10 @@ public class PsyDAO extends DAO<Psy>{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public Psy setEnv() {
+		Psy psy = new Psy();
+		return psy;
+	}
 
 }

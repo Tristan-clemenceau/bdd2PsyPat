@@ -4,25 +4,35 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import classes.Patient;
+import classes.Psy;
+import dao.DAO;
 import dao.DAOFactory;
 import view.Auth;
 
 public class TestMain {
 
 	public static void main(String[] args) {
-		test01();
+		test02();
 	}
-	
+
 	public static void test01() {
 		Auth auth = new Auth();
 		auth.setVisible(true);
 	}
-	
-	public static void test02() {
+
+	public static void test02() {/*PSY*/
+		DAOFactory daoFac = new DAOFactory(setCon("psyUser","admin"));
+		DAO<Psy> psy = daoFac.getPsyDao();
 		
-		DAOFactory dao = new DAOFactory(setCon("psyUser","admin"));
+		
 	}
 	
+	public static void test03() {/*PSY*/
+		DAOFactory daoFac = new DAOFactory(setCon("patientUser","rootttt"));
+		DAO<Patient> patient = daoFac.getPatient();
+	}
+
 	private static Connection setCon(String username, String password) {
 		try (Connection conn = DriverManager.getConnection(
 				"jdbc:oracle:thin:@localhost:1521:xe",username, password)) {

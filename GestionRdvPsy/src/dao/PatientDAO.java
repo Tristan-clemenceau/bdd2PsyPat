@@ -34,5 +34,9 @@ public class PatientDAO extends DAO<Patient> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public Patient setPatient() {
+		return null;
+	}
 
 }
