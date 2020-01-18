@@ -27,7 +27,7 @@ public class Auth extends JFrame implements ActionListener{
 	private JLabel lblNewLabel;
 	private JPasswordField passwordField;
 	private Connection conn = null;
-	private Home home;
+	private HomePatient home;
 
 	public Auth() {
 		setResizable(false);
@@ -93,7 +93,7 @@ public class Auth extends JFrame implements ActionListener{
 		if(isFieldFill()) {
 			if(testConnexion(textField.getText(),passwordField.getText())) {
 				this.conn = setConnection(textField.getText(),passwordField.getText());
-				home = new Home(this.conn);
+				home = new HomePatient(this.conn);
 				home.setVisible(true);
 			}
 		}else {
