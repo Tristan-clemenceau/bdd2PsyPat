@@ -4,10 +4,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import view.Auth;
+
 public class TestMain {
 
 	public static void main(String[] args) {
-		try (Connection conn = DriverManager.getConnection(
+		Auth auth = new Auth();
+		auth.setVisible(true);
+		/*try (Connection conn = DriverManager.getConnection(
 				"jdbc:oracle:thin:@localhost:1521:xe", "patientUser", "rootttt")) {
 			if (conn != null) {
 				System.out.println("Connected to the database!");
@@ -19,7 +23,7 @@ public class TestMain {
 			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 }

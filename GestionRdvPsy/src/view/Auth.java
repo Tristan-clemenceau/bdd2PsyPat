@@ -1,10 +1,12 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,8 +14,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 public class Auth extends JFrame implements ActionListener{
 
@@ -24,19 +26,7 @@ public class Auth extends JFrame implements ActionListener{
 	private JLabel lblUsername;
 	private JLabel lblNewLabel;
 	private JPasswordField passwordField;
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Auth frame = new Auth();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private Connection conn = null;
 
 	public Auth() {
 		setResizable(false);
@@ -66,7 +56,7 @@ public class Auth extends JFrame implements ActionListener{
 		
 		lblUsername = new JLabel("Username :");
 		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblUsername.setBounds(65, 133, 148, 14);
+		lblUsername.setBounds(65, 125, 148, 31);
 		panel_1.add(lblUsername);
 		
 		textField = new JTextField();
@@ -76,7 +66,7 @@ public class Auth extends JFrame implements ActionListener{
 		
 		lblPassword = new JLabel("Password :");
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblPassword.setBounds(65, 219, 87, 14);
+		lblPassword.setBounds(65, 216, 87, 20);
 		panel_1.add(lblPassword);
 		
 		passwordField = new JPasswordField();
@@ -86,7 +76,7 @@ public class Auth extends JFrame implements ActionListener{
 		lblNewLabel = new JLabel();
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		lblNewLabel.setBounds(10, 25, 389, 97);
+		lblNewLabel.setBounds(12, 25, 389, 97);
 		panel_1.add(lblNewLabel);
 		
 		JPanel panel_2 = new JPanel();
@@ -100,19 +90,48 @@ public class Auth extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(isFieldFill()) {
-			
+			if(testConnexion(textField.getText(),passwordField.getText())) {
+				
+			}
 		}else {
-			disMessage("Erreur","aucun champs n'est remplis");
+			disMessage("Erreur","Les champs doivent être Remplis");
 		}
-		Home frame = new Home();
-		frame.setVisible(true);	
+		//Home frame = new Home();
+		//frame.setVisible(true);	
 	}
 	
-	public boolean isFieldFill() {
-		return false;
+	private boolean isFieldFill() {
+		boolean login = !(textField.getText().equals(""));
+		boolean pass = !(passwordField.getText().equals(""));
+		return (login&&pass);
 	}
 	
-	public void disMessage(String statut,String message) {
+	private void disMessage(String statut,String message) {
 		lblNewLabel.setText("["+statut.toUpperCase()+"] "+message);;
 	}
+	
+	private boolean testConnexion(String username,String password) {
+		System.out.println("TestConnection");
+		try (Connection conn = DriverManager.getConnection(
+				"jdbc:oracle:thin:@localhost:1521:xe", username, password)) {
+			if (conn != null) {
+				disMessage("Success","Connected to the database!");
+				conn.close();
+				return true;
+			} else {
+				disMessage("erreur","Failed to make connection!");
+				return false;
+			}
+		} catch (SQLException e) {
+			disMessage("erreur",e.getMessage());
+			return false;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public Connection getConn() {
+		return conn;
+	}
+	
 }
