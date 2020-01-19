@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.util.Iterator;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -120,6 +121,7 @@ public class HomePsy extends JFrame implements ActionListener {
 
 		btnAdd = new JButton("Add");
 		pnl_Patients.add(btnAdd, BorderLayout.SOUTH);
+		btnAdd.addActionListener(this);
 		
 		panel_2 = new JPanel();
 		pnl_Patients.add(panel_2, BorderLayout.CENTER);
@@ -163,6 +165,11 @@ public class HomePsy extends JFrame implements ActionListener {
 		case "log out":
 			factory.closeConnection();
 			this.dispose();
+			break;
+		case "add" :
+			AddUser dialog = new AddUser();
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.show(true);
 			break;
 		default:
 			break;

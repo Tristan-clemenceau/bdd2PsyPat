@@ -31,6 +31,25 @@ public class Patient {
 		this.classification = classification;
 		this.listConsutations = new ArrayList<Consultation>();
 	}
+	
+	public Patient( String nom, String premierPrenom, String deuxiemePrenom, String nomRue,
+			String numeroRue, String codePostal, String ville, String mail, String connu, String remarque,
+			Date dateDeNaissance, Classification classification) {
+		this.nom = nom;
+		this.premierPrenom = premierPrenom;
+		this.deuxiemePrenom = deuxiemePrenom;
+		this.nomRue = nomRue;
+		this.numeroRue = numeroRue;
+		this.codePostal = codePostal;
+		this.ville = ville;
+		this.mail = mail;
+		this.connu = connu;
+		this.remarque = remarque;
+		this.dateDeNaissance = dateDeNaissance;
+		this.listProfessions = new ArrayList<Profession>();
+		this.classification = classification;
+		this.listConsutations = new ArrayList<Consultation>();
+	}
 
 	public void addProfession(Profession profession) {
 		listProfessions.add(profession);
