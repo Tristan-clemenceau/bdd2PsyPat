@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import classes.Classification;
 import classes.Profession;
 
 public class ProfessionDAO extends DAO<Profession> {
@@ -38,6 +39,8 @@ public class ProfessionDAO extends DAO<Profession> {
 		/*PreparedStatement*/
 		String sqlRequete ="SELECT nom FROM profession WHERE idprofession = ?";
 		String result = "";
+		/*VAR*/
+		Profession profession = null;
 		try {
 			PreparedStatement pst = this.getConnect().prepareStatement(sqlRequete);
 			pst.setInt(1, id);
@@ -46,13 +49,12 @@ public class ProfessionDAO extends DAO<Profession> {
 			while(rs.next()) {
 				result = rs.getString(1);
 			}
-			System.out.println(result);
+			profession = new Profession(result);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			System.out.println(e.getSQLState() +"\t"+e.getMessage());
 		}
-		
-		return null;
+		return profession;
 	}
 
 }

@@ -41,12 +41,20 @@ public class TestMain {
 			Connection conn = DriverManager.getConnection(
 					"jdbc:oracle:thin:@localhost:1521:xe","psyUser", "admin");
 			DAOFactory daoFac = new DAOFactory(conn);
+			
 			DAO<Profession> prof = daoFac.getProfession();
 			DAO<Classification> clas = daoFac.getClassification();
+			
 			Profession test01 = prof.find(1);
 			Classification class01 = clas.find(1);
+			
+			
 			test01 = prof.find(2);
 			test01 = prof.find(3);
+			
+			System.out.println(class01.toString());
+			System.out.println(test01.toString());
+			
 			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

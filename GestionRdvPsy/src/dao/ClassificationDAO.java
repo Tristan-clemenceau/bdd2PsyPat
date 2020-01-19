@@ -37,6 +37,8 @@ public class ClassificationDAO extends DAO<Classification>{
 		/*PreparedStatement*/
 		String sqlRequete ="SELECT nom FROM classification WHERE idclassification = ?";
 		String result = "";
+		/*VAR*/
+		Classification classification = null;
 		try {
 			PreparedStatement pst = this.getConnect().prepareStatement(sqlRequete);
 			pst.setInt(1, id);
@@ -45,12 +47,12 @@ public class ClassificationDAO extends DAO<Classification>{
 			while(rs.next()) {
 				result = rs.getString(1);
 			}
-			System.out.println(result);
+			classification = new Classification(result);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			System.out.println(e.getSQLState() +"\t"+e.getMessage());
 		}
-		return null;
+		return classification;
 	}
 
 }

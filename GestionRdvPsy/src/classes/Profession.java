@@ -30,6 +30,11 @@ public class Profession {
 	public void setDate(Date date) {
 		this.date = date;
 	}
+
+	@Override
+	public String toString() {
+		return "Profession [nom=" + nom + ", date=" + date + "]";
+	}
 	
 	
 }
