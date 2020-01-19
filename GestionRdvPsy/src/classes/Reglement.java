@@ -14,5 +14,10 @@ public class Reglement {
 	public void setReglement(String reglement) {
 		this.reglement = reglement;
 	}
+
+	@Override
+	public String toString() {
+		return "Reglement [reglement=" + reglement + "]";
+	}
 	
 }

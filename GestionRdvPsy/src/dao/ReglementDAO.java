@@ -1,7 +1,11 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
+import classes.Profession;
 import classes.Reglement;
 
 public class ReglementDAO extends DAO<Reglement>{
@@ -30,8 +34,25 @@ public class ReglementDAO extends DAO<Reglement>{
 
 	@Override
 	public Reglement find(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		/*PreparedStatement*/
+		String sqlRequete ="SELECT nom FROM reglement WHERE idreglement = ?";
+		String result = "";
+		/*VAR*/
+		Reglement reglement = null;
+		try {
+			PreparedStatement pst = this.getConnect().prepareStatement(sqlRequete);
+			pst.setInt(1, id);
+			
+			ResultSet rs=pst.executeQuery();
+			while(rs.next()) {
+				result = rs.getString(1);
+			}
+			reglement = new Reglement(result);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getSQLState() +"\t"+e.getMessage());
+		}
+		return reglement;
 	}
 
 }
