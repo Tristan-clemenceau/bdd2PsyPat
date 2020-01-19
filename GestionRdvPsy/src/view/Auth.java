@@ -93,13 +93,11 @@ public class Auth extends JFrame implements ActionListener{
 		// TODO Auto-generated method stub
 		if(isFieldFill()) {
 			if(testConnexion(textField.getText(),passwordField.getText())) {
-				this.conn = setConnection(textField.getText(),passwordField.getText());
-				
 				if(textField.getText().toLowerCase().equals("psyuser")) {//psy
-					homePsy = new HomePsy(this.conn);
+					homePsy = new HomePsy(textField.getText(),passwordField.getText());
 					homePsy.setVisible(true);
 				}else {
-					homePatient = new HomePatient(this.conn);
+					homePatient = new HomePatient();
 					homePatient.setVisible(true);
 				}
 			}
@@ -119,7 +117,6 @@ public class Auth extends JFrame implements ActionListener{
 	}
 	
 	private boolean testConnexion(String username,String password) {
-		System.out.println("TestConnection");
 		try (Connection conn = DriverManager.getConnection(
 				"jdbc:oracle:thin:@localhost:1521:xe", username, password)) {
 			if (conn != null) {
@@ -138,23 +135,6 @@ public class Auth extends JFrame implements ActionListener{
 		}
 	}
 	
-	private Connection setConnection(String username,String password) {
-		try (Connection conn = DriverManager.getConnection(
-				"jdbc:oracle:thin:@localhost:1521:xe", username, password)) {
-			if (conn != null) {
-				disMessage("Success","Connected to the database!");
-				return conn;
-			} else {
-				disMessage("erreur","Failed to make connection!");
-				return null;
-			}
-		} catch (SQLException e) {
-			disMessage("erreur",e.getMessage());
-			return null;
-		} catch (Exception e) {
-			return null;
-		}
-	}
 
 	public Connection getConn() {
 		return conn;

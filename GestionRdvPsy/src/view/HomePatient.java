@@ -58,13 +58,12 @@ public class HomePatient extends JFrame implements ActionListener{
 	private JTextField textField_4;
 	private JTable table_1;
 	/*DAO*/
-	Connection conn;
 	DAOFactory factory = new DAOFactory(null);
 
 	/**
 	 * Create the frame.
 	 */
-	public HomePatient(Connection conn) {
+	public HomePatient() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 971, 530);
 		contentPane = new JPanel();
@@ -178,7 +177,6 @@ public class HomePatient extends JFrame implements ActionListener{
 		panel_5.setBackground(Color.CYAN);
 		panel_1.add(panel_5, "panel_5");
 		
-		this.conn = conn;
 	}
 
 	@Override

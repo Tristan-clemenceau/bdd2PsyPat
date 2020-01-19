@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public class DAOFactory {
 
@@ -32,6 +33,16 @@ public class DAOFactory {
 
 	public static DAO getReglement() {
 		return new ReglementDAO(connection);
+	}
+	
+	public void closeConnection() {
+		try {
+			this.connection.close();
+			System.out.println("Connection closed");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

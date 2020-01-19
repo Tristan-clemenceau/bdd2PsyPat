@@ -10,6 +10,8 @@ import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,6 +25,12 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import classes.Classification;
+import classes.Consultation;
+import classes.Patient;
+import classes.Profession;
+import classes.Psy;
+import dao.DAO;
 import dao.DAOFactory;
 
 
@@ -30,6 +38,7 @@ public class HomePsy extends JFrame implements ActionListener {
 	/*Autre*/
 	private CardLayout cardLayout;
 	private JSplitPane splitPane;
+	private String user,pass;
 	/*Pannel*/
 	private JPanel contentPane;
 	private JPanel panel;
@@ -38,25 +47,30 @@ public class HomePsy extends JFrame implements ActionListener {
 	private JScrollPane scrollPane;
 	private JPanel pnl_Patients;
 	private JPanel panel_5;
+	private JPanel panel_2;
 	/*Button*/
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
 	private JButton btnProfile;
 	private JButton btnAdd;
 	private JLabel lblPatients;
-	/*Jtable*/
-	private JTable table;
 	private JTable table_1;
 	/*DAO*/
-	Connection conn;
 	DAOFactory factory = new DAOFactory(null);
+	private JTable table;
 
 	/**
 	 * Create the frame.
 	 */
-	public HomePsy(Connection conn) {
+	public HomePsy(String user,String pass) {
+		this.user = user;
+		this.pass = pass;
+		
+		/*Setting factory*/
+		setFactory();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 971, 530);
+		setBounds(100, 100, 1056, 532);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -68,7 +82,8 @@ public class HomePsy extends JFrame implements ActionListener {
 		contentPane.add(splitPane, BorderLayout.CENTER);
 
 		panel = new JPanel();
-		panel.setPreferredSize(new Dimension(200, 10));
+		panel.setMinimumSize(new Dimension(200, 10));
+		panel.setPreferredSize(new Dimension(210, 10));
 		panel.setBackground(SystemColor.controlDkShadow);
 		splitPane.setLeftComponent(panel);
 		panel.setLayout(null);
@@ -103,18 +118,26 @@ public class HomePsy extends JFrame implements ActionListener {
 		lblPatients.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		pnl_Patients.add(lblPatients, BorderLayout.NORTH);
 
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
-				new Object[][] {
-				},
-				new String[] {
-						"Test", "test", "test", "test"
-				}
-				));
-		pnl_Patients.add(table, BorderLayout.CENTER);
-
 		btnAdd = new JButton("Add");
 		pnl_Patients.add(btnAdd, BorderLayout.SOUTH);
+		
+		panel_2 = new JPanel();
+		pnl_Patients.add(panel_2, BorderLayout.CENTER);
+		panel_2.setLayout(new BorderLayout(0, 0));
+		
+		table = new JTable();
+		/*Metode set title*/
+		/*Methode set data*/
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"trez", "yo"},
+			},
+			new String[] {
+				"uuu", "yyyy","uuu", "yyyy","uuu", "yyyy","uuu", "yyyy","uuu", "yyyy","uuu", "yyyy"
+			}
+		));
+		panel_2.add(table.getTableHeader(),BorderLayout.NORTH);
+		panel_2.add(table,BorderLayout.CENTER);
 
 		pnl_Schedule = new JPanel();
 		pnl_Schedule.setBackground(Color.GREEN);
@@ -129,7 +152,7 @@ public class HomePsy extends JFrame implements ActionListener {
 		panel_5 = new JPanel();
 		panel_5.setBackground(Color.CYAN);
 		panel_1.add(panel_5, "panel_5");
-		this.conn = conn;
+		
 	}
 
 	@Override
@@ -149,5 +172,28 @@ public class HomePsy extends JFrame implements ActionListener {
 		}
 
 	}
+	
+	public void setFactory() {
+		try {
+			Connection conn = DriverManager.getConnection(
+					"jdbc:oracle:thin:@localhost:1521:xe",this.user, this.pass);
+			factory = new DAOFactory(conn);
+			System.out.println("ok");
+			factory.closeConnection();
 
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getSQLState() +"\t"+e.getMessage());
+		}
+		
+		this.factory = new DAOFactory(null);
+	}
+	
+	private String[] setTitle() {
+		return null;
+	}
+	
+	private Object[][] setData(){
+		return null;
+	}
 }
