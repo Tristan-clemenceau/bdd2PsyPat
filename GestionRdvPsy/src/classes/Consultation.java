@@ -7,8 +7,19 @@ public class Consultation {
 	private Date date;
 	private Date dateArrivee;
 	private Date dateFin;
-	private int anxiete;
+	private int anxiete, id;
 	private Reglement reglement;
+
+	public Consultation(float prix, Date date, Date dateArrivee, Date dateFin, int anxiete, int id,
+			Reglement reglement) {
+		this.prix = prix;
+		this.date = date;
+		this.dateArrivee = dateArrivee;
+		this.dateFin = dateFin;
+		this.anxiete = anxiete;
+		this.id = id;
+		this.reglement = reglement;
+	}
 
 	public Consultation(float prix, Date date, Date dateArrivee, Date dateFin, int anxiete, Reglement reglement) {
 		this.prix = prix;
@@ -66,7 +77,13 @@ public class Consultation {
 	public void setReglement(Reglement reglement) {
 		this.reglement = reglement;
 	}
-	
-	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 }
