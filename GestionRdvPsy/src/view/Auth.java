@@ -135,9 +135,4 @@ public class Auth extends JFrame implements ActionListener{
 		}
 	}
 	
-
-	public Connection getConn() {
-		return conn;
-	}
-	
 }
