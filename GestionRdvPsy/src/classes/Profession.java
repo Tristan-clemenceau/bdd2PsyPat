@@ -8,7 +8,6 @@ public class Profession {
 	private int id_Profession;
 
 	public Profession(String nom, Date date, int id_Profession) {
-		super();
 		this.nom = nom;
 		this.date = date;
 		this.id_Profession = id_Profession;
