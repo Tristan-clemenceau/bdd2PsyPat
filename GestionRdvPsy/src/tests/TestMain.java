@@ -2,8 +2,11 @@ package tests;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import classes.Classification;
 import classes.Patient;
 import classes.Profession;
 import classes.Psy;
@@ -23,40 +26,31 @@ public class TestMain {
 		auth.setVisible(true);
 	}
 
-	public static void test02() {/*PSY*/
+	/*public static void test02() {//PSY
 		DAOFactory daoFac = new DAOFactory(setCon("psyUser","admin"));
 		DAO<Psy> psy = daoFac.getPsyDao();
-		
-		
-	}
+	}*/
 	
-	public static void test03() {/*PSY*/
+	/*public static void test03() {//PATIENT
 		DAOFactory daoFac = new DAOFactory(setCon("patientUser","rootttt"));
 		DAO<Patient> patient = daoFac.getPatient();
-	}
+	}*/
 	
 	public static void test04() {
-		ProfessionDAO test = new ProfessionDAO(setCon("psyUser","admin"));
-		System.out.println(test.getConnect().toString());
-		Profession test01 = test.find(1);
-	}
-
-	private static Connection setCon(String username, String password) {
-		try (Connection conn = DriverManager.getConnection(
-				"jdbc:oracle:thin:@localhost:1521:xe",username, password)) {
-			if (conn != null) {
-				System.out.println("Connecté à la base de donnée");
-				return conn;
-			} else {
-				System.out.println("Impossible de joindre la base de donnée");
-				return null;
-			}
+		try {
+			Connection conn = DriverManager.getConnection(
+					"jdbc:oracle:thin:@localhost:1521:xe","psyUser", "admin");
+			DAOFactory daoFac = new DAOFactory(conn);
+			DAO<Profession> prof = daoFac.getProfession();
+			DAO<Classification> clas = daoFac.getClassification();
+			Profession test01 = prof.find(1);
+			Classification class01 = clas.find(1);
+			test01 = prof.find(2);
+			test01 = prof.find(3);
+			conn.close();
 		} catch (SQLException e) {
-			System.out.println(e.getSQLState());
-			return null;
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return null;
+			// TODO Auto-generated catch block
+			System.out.println(e.getSQLState() +"\t"+e.getMessage());
 		}
 	}
 

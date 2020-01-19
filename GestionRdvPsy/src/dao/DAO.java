@@ -27,6 +27,7 @@ public abstract class DAO<T> {
 	public void closeConnect() {
 		try {
 			this.connect.close();
+			System.out.println("connexion closed");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
