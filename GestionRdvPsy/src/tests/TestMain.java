@@ -5,15 +5,17 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import classes.Patient;
+import classes.Profession;
 import classes.Psy;
 import dao.DAO;
 import dao.DAOFactory;
+import dao.ProfessionDAO;
 import view.Auth;
 
 public class TestMain {
 
 	public static void main(String[] args) {
-		test02();
+		test04();
 	}
 
 	public static void test01() {
@@ -31,6 +33,12 @@ public class TestMain {
 	public static void test03() {/*PSY*/
 		DAOFactory daoFac = new DAOFactory(setCon("patientUser","rootttt"));
 		DAO<Patient> patient = daoFac.getPatient();
+	}
+	
+	public static void test04() {
+		ProfessionDAO test = new ProfessionDAO(setCon("psyUser","admin"));
+		System.out.println(test.getConnect().toString());
+		Profession test01 = test.find(1);
 	}
 
 	private static Connection setCon(String username, String password) {

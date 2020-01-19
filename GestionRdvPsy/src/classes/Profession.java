@@ -10,6 +10,10 @@ public class Profession {
 		this.nom = nom;
 		this.date = date;
 	}
+	
+	public Profession(String nom) {
+		this.nom = nom;
+	}
 
 	public String getNom() {
 		return nom;

@@ -1,6 +1,9 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import classes.Profession;
 
@@ -31,7 +34,23 @@ public class ProfessionDAO extends DAO<Profession> {
 
 	@Override
 	public Profession find(int id) {
-		// TODO Auto-generated method stub
+		/*PreparedStatement*/
+		String sqlRequete ="SELECT nom FROM profession WHERE idprofession = ?";
+		String result = "";
+		try {
+			PreparedStatement pst = this.getConnect().prepareStatement(sqlRequete);
+			pst.setInt(1, id);
+			
+			ResultSet rs=pst.executeQuery();
+			while(rs.next()) {
+				result = rs.getString(1);
+			}
+			System.out.println(result);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 

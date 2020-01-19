@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public abstract class DAO<T> {
 	
@@ -15,4 +16,22 @@ public abstract class DAO<T> {
 	public abstract boolean update(T obj);
 	public abstract T find(int id);/*Retourne obj generique*/
 
+	public Connection getConnect() {
+		return connect;
+	}
+
+	public void setConnect(Connection connect) {
+		this.connect = connect;
+	}
+	
+	public void closeConnect() {
+		try {
+			this.connect.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 }
