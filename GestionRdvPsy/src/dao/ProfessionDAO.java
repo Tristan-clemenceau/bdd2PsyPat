@@ -37,7 +37,7 @@ public class ProfessionDAO extends DAO<Profession> {
 	@Override
 	public Profession find(int id) {
 		/*PreparedStatement*/
-		String sqlRequete ="SELECT nom FROM profession WHERE idprofession = ?";
+		String sqlRequete ="SELECT nom FROM psyUser.profession WHERE idprofession = ?";
 		String result = "";
 		/*VAR*/
 		Profession profession = null;

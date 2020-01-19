@@ -38,9 +38,9 @@ public class PatientDAO extends DAO<Patient> {
 	@Override
 	public Patient find(int id) {
 		/*PreparedStatement*/
-		String sqlRequete ="SELECT * from patient where idpatient = ?";
-		String sqlRequete02 ="SELECT p.nom,ph.dateprofessionhistorique,ph.idprofession FROM professionhistorique ph,profession p WHERE ph.idprofession = p.idprofession AND ph.idpatient = ?";
-		String sqlRequete03 ="SELECT c.prix,c.dateconsultation,c.datearrivee,c.datefin,c.anxiete,c.idconsultation,p.idpatient FROM consultation c , patient p WHERE c.idconsultation = p.idconsultation AND p.idpatient = ?";
+		String sqlRequete ="SELECT * from psyUser.patient where idpatient = ?";
+		String sqlRequete02 ="SELECT p.nom,ph.dateprofessionhistorique,ph.idprofession FROM psyUser.professionhistorique ph,psyUser.profession p WHERE ph.idprofession = p.idprofession AND ph.idpatient = ?";
+		String sqlRequete03 ="SELECT c.prix,c.dateconsultation,c.datearrivee,c.datefin,c.anxiete,c.idconsultation,p.idpatient FROM psyUser.consultation c , psyUser.patient p WHERE c.idconsultation = p.idconsultation AND p.idpatient = ?";
 		/*VAR*/
 		ClassificationDAO classification = null;
 		ProfessionDAO professionDao = null;

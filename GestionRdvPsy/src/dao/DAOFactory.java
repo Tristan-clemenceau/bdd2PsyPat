@@ -35,6 +35,14 @@ public class DAOFactory {
 		return new ReglementDAO(connection);
 	}
 	
+	public static Connection getConnection() {
+		return connection;
+	}
+
+	public static void setConnection(Connection connection) {
+		DAOFactory.connection = connection;
+	}
+
 	public void closeConnection() {
 		try {
 			this.connection.close();

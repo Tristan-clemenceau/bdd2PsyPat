@@ -35,7 +35,7 @@ public class ClassificationDAO extends DAO<Classification>{
 	@Override
 	public Classification find(int id) {
 		/*PreparedStatement*/
-		String sqlRequete ="SELECT nom FROM classification WHERE idclassification = ?";
+		String sqlRequete ="SELECT nom FROM psyUser.classification WHERE idclassification = ?";
 		String result = "";
 		/*VAR*/
 		Classification classification = null;

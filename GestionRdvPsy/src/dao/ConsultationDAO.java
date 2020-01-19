@@ -37,7 +37,7 @@ public class ConsultationDAO extends DAO<Consultation> {
 	@Override
 	public Consultation find(int id) {
 		/*PreparedStatement*/
-		String sqlRequete ="SELECT idconsultation,dateconsultation,datearrivee,datefin,prix,anxiete,idreglement from consultation where idconsultation = ?";
+		String sqlRequete ="SELECT idconsultation,dateconsultation,datearrivee,datefin,prix,anxiete,idreglement from psyUser.consultation where idconsultation = ?";
 		/*VAR*/
 		ReglementDAO reglement = null;
 		Consultation consultation = null;

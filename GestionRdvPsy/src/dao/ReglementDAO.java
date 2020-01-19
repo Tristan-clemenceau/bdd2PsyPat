@@ -35,7 +35,7 @@ public class ReglementDAO extends DAO<Reglement>{
 	@Override
 	public Reglement find(int id) {
 		/*PreparedStatement*/
-		String sqlRequete ="SELECT nom FROM reglement WHERE idreglement = ?";
+		String sqlRequete ="SELECT nom FROM psyUser.reglement WHERE idreglement = ?";
 		String result = "";
 		/*VAR*/
 		Reglement reglement = null;

@@ -1,74 +1,79 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JSplitPane;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.awt.Dimension;
+
 import javax.swing.JButton;
-import java.awt.GridLayout;
-import java.awt.CardLayout;
-import java.awt.Color;
-import javax.swing.JList;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.SwingConstants;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import classes.Consultation;
+import classes.Patient;
+import dao.DAO;
 import dao.DAOFactory;
 
-import javax.swing.JTextField;
-import javax.swing.JScrollPane;
-
-public class HomePatient extends JFrame implements ActionListener{
-	/*Autre*/
+public class HomePatient extends JFrame implements ActionListener {
+	/* Autre */
 	private CardLayout cardLayout;
 	private JSplitPane splitPane;
-	private String user,pass;
-	/*Pannel*/
+	private String user, pass;
+	private JTable table;
+	private JLabel lblNewLabel;
+	/* Pannel */
 	private JPanel contentPane;
 	private JPanel panel;
 	private JPanel panel_1;
 	private JPanel pnl_Profile;
 	private JPanel pnl_Schedule;
-	private JScrollPane scrollPane;
-	/*Button*/
+	private JPanel panel_2;
+	/* Button */
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
 	private JButton btnProfile;
-	/*Label*/
+	/* Label */
 	private JLabel lblProfile;
 	private JLabel lblPrenom;
 	private JLabel lblNom_1;
 	private JLabel lblEmail;
 	private JLabel lblPassword;
-	/*Textfield*/
+	/* Textfield */
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTextField textField_4;
-	private JTable table_1;
-	/*DAO*/
+	/* DAO */
 	DAOFactory factory = new DAOFactory(null);
+	Patient patient = null;
+	
+	
+	
 
-	public HomePatient(String user,String pass) {
+	public HomePatient(String user, String pass) {
 		this.user = user;
 		this.pass = pass;
-		
-		/*Setting factory*/
+
+		/* Setting factory */
 		setFactory();
-		
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 971, 530);
 		contentPane = new JPanel();
@@ -92,7 +97,7 @@ public class HomePatient extends JFrame implements ActionListener{
 		panel.add(btnNewButton);
 		btnNewButton.addActionListener(this);
 
-		btnNewButton_1 = new JButton("Log out");/*A delete*/
+		btnNewButton_1 = new JButton("Log out");/* A delete */
 		btnNewButton_1.setBounds(50, 243, 89, 23);
 		panel.add(btnNewButton_1);
 		btnNewButton_1.addActionListener(this);
@@ -146,7 +151,7 @@ public class HomePatient extends JFrame implements ActionListener{
 		textField_2.setBounds(115, 196, 96, 20);
 		pnl_Profile.add(textField_2);
 
-		lblEmail = new JLabel("Email/Login : ");
+		lblEmail = new JLabel("Login : ");
 		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblEmail.setBounds(33, 250, 109, 35);
 		pnl_Profile.add(lblEmail);
@@ -157,7 +162,7 @@ public class HomePatient extends JFrame implements ActionListener{
 		textField_3.setBounds(152, 260, 206, 20);
 		pnl_Profile.add(textField_3);
 
-		lblPassword = new JLabel("Password :");
+		lblPassword = new JLabel("Email :");
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblPassword.setBounds(33, 314, 101, 14);
 		pnl_Profile.add(lblPassword);
@@ -171,13 +176,26 @@ public class HomePatient extends JFrame implements ActionListener{
 		pnl_Schedule = new JPanel();
 		pnl_Schedule.setBackground(Color.GREEN);
 		panel_1.add(pnl_Schedule, "pnl_Schedule");
-
-		scrollPane = new JScrollPane();
-		pnl_Schedule.add(scrollPane);
-
-		table_1 = new JTable();
-		pnl_Schedule.add(table_1);
+		pnl_Schedule.setLayout(new BorderLayout(0, 0));
 		
+		lblNewLabel = new JLabel("Schedule");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		pnl_Schedule.add(lblNewLabel, BorderLayout.NORTH);
+		
+		panel_2 = new JPanel();
+		pnl_Schedule.add(panel_2, BorderLayout.CENTER);
+		panel_2.setLayout(new BorderLayout(0, 0));
+		
+		setProfileView();
+		
+		table = new JTable();
+		table.setModel(new DefaultTableModel(setData(),setTitle()));
+		panel_2.add(table.getTableHeader(),BorderLayout.NORTH);
+		panel_2.add(table, BorderLayout.CENTER);
+		
+		
+
 	}
 
 	@Override
@@ -198,16 +216,64 @@ public class HomePatient extends JFrame implements ActionListener{
 		}
 
 	}
-	
+
 	public void setFactory() {
 		try {
-			Connection conn = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:xe",this.user, this.pass);
+			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", this.user, this.pass);
 			factory = new DAOFactory(conn);
-			//factory.closeConnection();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			System.out.println(e.getSQLState() +"\t"+e.getMessage());
+			System.out.println(e.getSQLState() + "\t" + e.getMessage());
 		}
+	}
+
+	private void setProfileView() {
+		DAO<Patient> patientDao = factory.getPatient();
+		patient = patientDao.find(getInt());
+
+		textField.setText(patient.getPremierPrenom());
+		textField_1.setText(patient.getDeuxiemePrenom());
+		textField_2.setText(patient.getNom());
+		textField_3.setText(user);
+		textField_4.setText(patient.getMail());
+
+	}
+
+	private int getInt() {
+		/* PreparedStatement */
+		String sqlRequete = "Select idpatient from psyUser.loginpatient where login = ?";
+		int idPatient = 0;
+		/* VAR */
+		try {
+			PreparedStatement pst = factory.getConnection().prepareStatement(sqlRequete);
+			pst.setString(1, user);
+
+			ResultSet rs = pst.executeQuery();
+			while (rs.next()) {
+				idPatient = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getSQLState() + "\t" + e.getMessage());
+		}
+		return idPatient;
+	}
+	
+	private String[] setTitle() {
+		String[] titre = {"Date Consultation","Prix ","Reglement"};
+		return titre;
+	}
+	
+	private Object[][] setData(){
+		
+		Object[][] data = new Object[patient.getListConsutations().size()][3];
+		
+		for (int cpt = 0;cpt<patient.getListConsutations().size();cpt++) {
+			Consultation consultation = patient.getListConsutations().get(cpt);
+			data[cpt][0]= consultation.getDate().toLocaleString();
+			data[cpt][1]= consultation.getPrix();
+			data[cpt][2]= consultation.getReglement().getReglement();
+		}
+		return data;
 	}
 }
