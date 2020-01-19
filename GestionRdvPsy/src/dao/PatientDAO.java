@@ -1,7 +1,11 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
+import classes.Consultation;
 import classes.Patient;
 
 public class PatientDAO extends DAO<Patient> {
@@ -31,12 +35,26 @@ public class PatientDAO extends DAO<Patient> {
 
 	@Override
 	public Patient find(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	public Patient setPatient() {
-		return null;
+		/*PreparedStatement*/
+		String sqlRequete ="SELECT nom FROM reglement WHERE idreglement = ?";
+		String result = "";
+		/*VAR*/
+		Patient patient = null;
+		try {
+			PreparedStatement pst = this.getConnect().prepareStatement(sqlRequete);
+			pst.setInt(1, id);
+			
+			ResultSet rs=pst.executeQuery();
+			while(rs.next()) {
+				result = rs.getString(1);
+			}
+			
+			//consultation = new Consultation();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getSQLState() +"\t"+e.getMessage());
+		}
+		return patient;
 	}
 
 }

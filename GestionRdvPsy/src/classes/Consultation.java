@@ -86,4 +86,10 @@ public class Consultation {
 		this.id = id;
 	}
 
+	@Override
+	public String toString() {
+		return "Consultation [prix=" + prix + ", date=" + date.toLocaleString() + ", dateArrivee=" + dateArrivee + ", dateFin=" + dateFin.toLocaleString()
+				+ ", anxiete=" + anxiete + ", id=" + id + ", reglement=" + reglement + "]";
+	}
+
 }

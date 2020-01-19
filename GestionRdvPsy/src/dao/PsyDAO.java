@@ -1,7 +1,13 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
+import classes.Consultation;
+import classes.Patient;
+import classes.Profession;
 import classes.Psy;
 
 public class PsyDAO extends DAO<Psy>{
@@ -37,6 +43,31 @@ public class PsyDAO extends DAO<Psy>{
 	
 	public Psy setEnv() {
 		Psy psy = new Psy();
+		
+		/*PreparedStatement*/
+		String sqlRequete ="SELECT nom FROM profession WHERE idprofession = ?";
+		String result = "";
+		/*VAR*/
+		Consultation consultation = null;
+		Patient patient = null;
+		try {
+			PreparedStatement pst = this.getConnect().prepareStatement(sqlRequete);
+			//pst.setInt(1, id);
+			
+			ResultSet rs=pst.executeQuery();
+			while(rs.next()) {
+				result = rs.getString(1);
+			}
+			//profession = new Profession(result);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getSQLState() +"\t"+e.getMessage());
+		}
+		
+		
+		psy.addConsultation(consultation);
+		psy.addPatient(patient);
+		
 		return psy;
 	}
 

@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,9 +37,10 @@ public class ConsultationDAO extends DAO<Consultation> {
 	@Override
 	public Consultation find(int id) {
 		/*PreparedStatement*/
-		String sqlRequete ="SELECT nom FROM reglement WHERE idreglement = ?";
+		String sqlRequete ="SELECT idconsultation,dateconsultation,datearrivee,datefin,prix,anxiete,idreglement from consultation where idconsultation = ?";
 		String result = "";
 		/*VAR*/
+		ReglementDAO reglement = null;
 		Consultation consultation = null;
 		try {
 			PreparedStatement pst = this.getConnect().prepareStatement(sqlRequete);
@@ -46,10 +48,9 @@ public class ConsultationDAO extends DAO<Consultation> {
 			
 			ResultSet rs=pst.executeQuery();
 			while(rs.next()) {
-				result = rs.getString(1);
+				reglement = new ReglementDAO(this.getConnect());
+				consultation = new Consultation(rs.getFloat(5), rs.getDate(2), rs.getDate(3), rs.getDate(4), rs.getInt(6), rs.getInt(1), reglement.find(rs.getInt(7)));
 			}
-			
-			//consultation = new Consultation();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			System.out.println(e.getSQLState() +"\t"+e.getMessage());

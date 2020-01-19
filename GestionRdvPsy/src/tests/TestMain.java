@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import classes.Classification;
+import classes.Consultation;
 import classes.Patient;
 import classes.Profession;
 import classes.Psy;
@@ -44,16 +45,18 @@ public class TestMain {
 			
 			DAO<Profession> prof = daoFac.getProfession();
 			DAO<Classification> clas = daoFac.getClassification();
+			DAO<Consultation> consul = daoFac.getConsultation();
 			
 			Profession test01 = prof.find(1);
 			Classification class01 = clas.find(1);
-			
+			Consultation consultation = consul.find(1);
 			
 			test01 = prof.find(2);
 			test01 = prof.find(3);
 			
 			System.out.println(class01.toString());
 			System.out.println(test01.toString());
+			System.out.println(consultation.toString());
 			
 			conn.close();
 		} catch (SQLException e) {
