@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Iterator;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -32,6 +33,7 @@ import classes.Profession;
 import classes.Psy;
 import dao.DAO;
 import dao.DAOFactory;
+import dao.PsyDAO;
 
 
 public class HomePsy extends JFrame implements ActionListener {
@@ -39,29 +41,27 @@ public class HomePsy extends JFrame implements ActionListener {
 	private CardLayout cardLayout;
 	private JSplitPane splitPane;
 	private String user,pass;
+	private JTable table;
+	private JTable table_1;
 	/*Pannel*/
 	private JPanel contentPane;
 	private JPanel panel;
 	private JPanel panel_1;
 	private JPanel pnl_Schedule;
-	private JScrollPane scrollPane;
 	private JPanel pnl_Patients;
-	private JPanel panel_5;
 	private JPanel panel_2;
+	private JPanel panel_3;
+	
 	/*Button*/
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
 	private JButton btnProfile;
 	private JButton btnAdd;
 	private JLabel lblPatients;
-	private JTable table_1;
+	private JLabel lblNewLabel;
 	/*DAO*/
 	DAOFactory factory = new DAOFactory(null);
-	private JTable table;
-
-	/**
-	 * Create the frame.
-	 */
+	
 	public HomePsy(String user,String pass) {
 		this.user = user;
 		this.pass = pass;
@@ -126,32 +126,28 @@ public class HomePsy extends JFrame implements ActionListener {
 		panel_2.setLayout(new BorderLayout(0, 0));
 		
 		table = new JTable();
-		/*Metode set title*/
-		/*Methode set data*/
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"trez", "yo"},
-			},
-			new String[] {
-				"uuu", "yyyy","uuu", "yyyy","uuu", "yyyy","uuu", "yyyy","uuu", "yyyy","uuu", "yyyy"
-			}
-		));
+		table.setModel(new DefaultTableModel(setData(),setTitle()));
 		panel_2.add(table.getTableHeader(),BorderLayout.NORTH);
 		panel_2.add(table,BorderLayout.CENTER);
 
 		pnl_Schedule = new JPanel();
 		pnl_Schedule.setBackground(Color.GREEN);
 		panel_1.add(pnl_Schedule, "pnl_Schedule");
-
-		scrollPane = new JScrollPane();
-		pnl_Schedule.add(scrollPane);
-
+		pnl_Schedule.setLayout(new BorderLayout(0, 0));
+		
+		lblNewLabel = new JLabel("Schedule");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		pnl_Schedule.add(lblNewLabel, BorderLayout.NORTH);
+		
+		panel_3 = new JPanel();
+		pnl_Schedule.add(panel_3, BorderLayout.CENTER);
+		panel_3.setLayout(new BorderLayout(0, 0));
+		
 		table_1 = new JTable();
-		pnl_Schedule.add(table_1);
-
-		panel_5 = new JPanel();
-		panel_5.setBackground(Color.CYAN);
-		panel_1.add(panel_5, "panel_5");
+		table_1.setModel(new DefaultTableModel(setData2(),setTitle2()));
+		panel_3.add(table_1.getTableHeader(),BorderLayout.NORTH);
+		panel_3.add(table_1,BorderLayout.CENTER);
 		
 	}
 
@@ -165,7 +161,8 @@ public class HomePsy extends JFrame implements ActionListener {
 			cardLayout.show(panel_1, "pnl_Patients");
 			break;
 		case "log out":
-			cardLayout.show(panel_1, "panel_5");
+			factory.closeConnection();
+			this.dispose();
 			break;
 		default:
 			break;
@@ -178,22 +175,60 @@ public class HomePsy extends JFrame implements ActionListener {
 			Connection conn = DriverManager.getConnection(
 					"jdbc:oracle:thin:@localhost:1521:xe",this.user, this.pass);
 			factory = new DAOFactory(conn);
-			System.out.println("ok");
-			factory.closeConnection();
-
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			System.out.println(e.getSQLState() +"\t"+e.getMessage());
 		}
-		
-		this.factory = new DAOFactory(null);
 	}
 	
 	private String[] setTitle() {
-		return null;
+		String[] titre = {"Nom","PremierPrenom","DeuxiemePrenom","Date de naissance","Nom rue","Num rue","Code postal","Ville","Mail","Connu","Remarque"};
+		return titre;
+	}
+	
+	private String[] setTitle2() {
+		String[] titre = {"Date Consultation","Date Arrivee","Date Fin","Prix ","Anxiete","Reglement"};
+		return titre;
 	}
 	
 	private Object[][] setData(){
-		return null;
+		DAO<Psy> psyDAO = factory.getPsy();
+		Psy psy = psyDAO.find(0);
+		
+		Object[][] data = new Object[psy.getListPatients().size()][11];
+		
+		for (int cpt = 0;cpt<psy.getListPatients().size();cpt++) {
+			Patient patient = psy.getListPatients().get(cpt);
+			data[cpt][0]= patient.getNom();
+			data[cpt][1]= patient.getPremierPrenom();
+			data[cpt][2]= patient.getDeuxiemePrenom();
+			data[cpt][3]= patient.getDateDeNaissance().toLocaleString();
+			data[cpt][4]= patient.getNomRue();
+			data[cpt][5]= patient.getNumeroRue();
+			data[cpt][6]= patient.getCodePostal();
+			data[cpt][7]= patient.getVille();
+			data[cpt][8]= patient.getMail();
+			data[cpt][9]= patient.getConnu();
+			data[cpt][10]= patient.getRemarque();
+		}
+		return data;
+	}
+	
+	private Object[][] setData2(){
+		DAO<Psy> psyDAO = factory.getPsy();
+		Psy psy = psyDAO.find(0);
+		
+		Object[][] data = new Object[psy.getListConsultations().size()][6];
+		
+		for (int cpt = 0;cpt<psy.getListConsultations().size();cpt++) {
+			Consultation consultation = psy.getListConsultations().get(cpt);
+			data[cpt][0]= consultation.getDate().toLocaleString();
+			data[cpt][1]= consultation.getDateArrivee();
+			data[cpt][2]= consultation.getDateFin().toLocaleString();
+			data[cpt][3]= consultation.getPrix();
+			data[cpt][4]= consultation.getAnxiete();
+			data[cpt][5]= consultation.getReglement().getReglement();
+		}
+		return data;
 	}
 }

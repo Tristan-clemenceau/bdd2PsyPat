@@ -97,7 +97,7 @@ public class Auth extends JFrame implements ActionListener{
 					homePsy = new HomePsy(textField.getText(),passwordField.getText());
 					homePsy.setVisible(true);
 				}else {
-					homePatient = new HomePatient();
+					homePatient = new HomePatient(textField.getText(),passwordField.getText());
 					homePatient.setVisible(true);
 				}
 			}

@@ -11,6 +11,8 @@ import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.awt.Dimension;
 import javax.swing.JButton;
 import java.awt.GridLayout;
@@ -32,6 +34,7 @@ public class HomePatient extends JFrame implements ActionListener{
 	/*Autre*/
 	private CardLayout cardLayout;
 	private JSplitPane splitPane;
+	private String user,pass;
 	/*Pannel*/
 	private JPanel contentPane;
 	private JPanel panel;
@@ -39,7 +42,6 @@ public class HomePatient extends JFrame implements ActionListener{
 	private JPanel pnl_Profile;
 	private JPanel pnl_Schedule;
 	private JScrollPane scrollPane;
-	private JPanel panel_5;
 	/*Button*/
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
@@ -60,10 +62,13 @@ public class HomePatient extends JFrame implements ActionListener{
 	/*DAO*/
 	DAOFactory factory = new DAOFactory(null);
 
-	/**
-	 * Create the frame.
-	 */
-	public HomePatient() {
+	public HomePatient(String user,String pass) {
+		this.user = user;
+		this.pass = pass;
+		
+		/*Setting factory*/
+		setFactory();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 971, 530);
 		contentPane = new JPanel();
@@ -172,10 +177,6 @@ public class HomePatient extends JFrame implements ActionListener{
 
 		table_1 = new JTable();
 		pnl_Schedule.add(table_1);
-
-		panel_5 = new JPanel();
-		panel_5.setBackground(Color.CYAN);
-		panel_1.add(panel_5, "panel_5");
 		
 	}
 
@@ -189,11 +190,24 @@ public class HomePatient extends JFrame implements ActionListener{
 			cardLayout.show(panel_1, "pnl_Schedule");
 			break;
 		case "log out":
-			cardLayout.show(panel_1, "panel_5");
+			factory.closeConnection();
+			this.dispose();
 			break;
 		default:
 			break;
 		}
 
+	}
+	
+	public void setFactory() {
+		try {
+			Connection conn = DriverManager.getConnection(
+					"jdbc:oracle:thin:@localhost:1521:xe",this.user, this.pass);
+			factory = new DAOFactory(conn);
+			//factory.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getSQLState() +"\t"+e.getMessage());
+		}
 	}
 }
