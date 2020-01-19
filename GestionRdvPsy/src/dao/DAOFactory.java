@@ -26,7 +26,7 @@ public class DAOFactory {
 		return new ProfessionDAO(connection);
 	}
 
-	public static DAO getPsyDao() {
+	public static DAO getPsy() {
 		return new PsyDAO(connection);
 	}
 

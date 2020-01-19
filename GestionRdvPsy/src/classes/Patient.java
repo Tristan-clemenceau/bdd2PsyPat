@@ -162,11 +162,9 @@ public class Patient {
 
 	@Override
 	public String toString() {
-		return "Patient [id_Patient=" + id_Patient + ", nom=" + nom + ", premierPrenom=" + premierPrenom
-				+ ", deuxiemePrenom=" + deuxiemePrenom + ", nomRue=" + nomRue + ", numeroRue=" + numeroRue
-				+ ", codePostal=" + codePostal + ", ville=" + ville + ", mail=" + mail + ", connu=" + connu
-				+ ", remarque=" + remarque + ", dateDeNaissance=" + dateDeNaissance + ", classification="
-				+ classification + "]";
+		return "Patient [nom=" + nom + ", premierPrenom=" + premierPrenom + ", deuxiemePrenom=" + deuxiemePrenom
+				+ ", nomRue=" + nomRue + ", numeroRue=" + numeroRue + ", codePostal=" + codePostal + ", ville=" + ville
+				+ ", mail=" + mail + ", connu=" + connu + ", remarque=" + remarque + ", dateDeNaissance="
+				+ dateDeNaissance + ", classification=" + classification + "]";
 	}
-
 }

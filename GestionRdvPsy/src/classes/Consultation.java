@@ -9,6 +9,19 @@ public class Consultation {
 	private Date dateFin;
 	private int anxiete, id;
 	private Reglement reglement;
+	private Patient patient;
+
+	public Consultation(float prix, Date date, Date dateArrivee, Date dateFin, int anxiete, int id, Reglement reglement,
+			Patient patient) {
+		this.prix = prix;
+		this.date = date;
+		this.dateArrivee = dateArrivee;
+		this.dateFin = dateFin;
+		this.anxiete = anxiete;
+		this.id = id;
+		this.reglement = reglement;
+		this.patient = patient;
+	}
 
 	public Consultation(float prix, Date date, Date dateArrivee, Date dateFin, int anxiete, int id,
 			Reglement reglement) {
@@ -85,11 +98,20 @@ public class Consultation {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	public Patient getPatient() {
+		return patient;
+	}
+
+	public void setPatient(Patient patient) {
+		this.patient = patient;
+	}
 
 	@Override
 	public String toString() {
-		return "Consultation [prix=" + prix + ", date=" + date.toLocaleString() + ", dateArrivee=" + dateArrivee + ", dateFin=" + dateFin.toLocaleString()
-				+ ", anxiete=" + anxiete + ", id=" + id + ", reglement=" + reglement + "]";
+		return "Consultation [prix=" + prix + ", date=" + date.toLocaleString() + ", dateArrivee=" + dateArrivee
+				+ ", dateFin=" + dateFin.toLocaleString() + ", anxiete=" + anxiete + ", id=" + id + ", reglement="
+				+ reglement + "]";
 	}
 
 }

@@ -19,23 +19,13 @@ import view.Auth;
 public class TestMain {
 
 	public static void main(String[] args) {
-		test04();
+		test01();
 	}
 
 	public static void test01() {
 		Auth auth = new Auth();
 		auth.setVisible(true);
 	}
-
-	/*public static void test02() {//PSY
-		DAOFactory daoFac = new DAOFactory(setCon("psyUser","admin"));
-		DAO<Psy> psy = daoFac.getPsyDao();
-	}*/
-	
-	/*public static void test03() {//PATIENT
-		DAOFactory daoFac = new DAOFactory(setCon("patientUser","rootttt"));
-		DAO<Patient> patient = daoFac.getPatient();
-	}*/
 	
 	public static void test04() {
 		try {
@@ -47,11 +37,14 @@ public class TestMain {
 			DAO<Classification> clas = daoFac.getClassification();
 			DAO<Consultation> consul = daoFac.getConsultation();
 			DAO<Patient> patient = daoFac.getPatient();
+			DAO<Psy> psy = daoFac.getPsy();
+
 			
 			Profession test01 = prof.find(1);
 			Classification class01 = clas.find(1);
 			Consultation consultation = consul.find(1);
 			Patient patient01 = patient.find(1);
+			Psy psy01 = psy.find(0);
 			
 			test01 = prof.find(2);
 			test01 = prof.find(3);
@@ -60,6 +53,9 @@ public class TestMain {
 			System.out.println(test01.toString());
 			System.out.println(consultation.toString());
 			System.out.println(patient01.toString());
+			
+			psy01.dispPatient();
+			psy01.dispConsultation();
 			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
