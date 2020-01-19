@@ -2,6 +2,7 @@ package classes;
 
 public class Classification {
 	private String nom;
+	private int id;
 	
 	public Classification(String nom) {
 		this.nom = nom;
