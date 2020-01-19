@@ -46,10 +46,12 @@ public class TestMain {
 			DAO<Profession> prof = daoFac.getProfession();
 			DAO<Classification> clas = daoFac.getClassification();
 			DAO<Consultation> consul = daoFac.getConsultation();
+			DAO<Patient> patient = daoFac.getPatient();
 			
 			Profession test01 = prof.find(1);
 			Classification class01 = clas.find(1);
 			Consultation consultation = consul.find(1);
+			Patient patient01 = patient.find(1);
 			
 			test01 = prof.find(2);
 			test01 = prof.find(3);
@@ -57,7 +59,7 @@ public class TestMain {
 			System.out.println(class01.toString());
 			System.out.println(test01.toString());
 			System.out.println(consultation.toString());
-			
+			System.out.println(patient01.toString());
 			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

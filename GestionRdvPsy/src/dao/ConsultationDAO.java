@@ -38,7 +38,6 @@ public class ConsultationDAO extends DAO<Consultation> {
 	public Consultation find(int id) {
 		/*PreparedStatement*/
 		String sqlRequete ="SELECT idconsultation,dateconsultation,datearrivee,datefin,prix,anxiete,idreglement from consultation where idconsultation = ?";
-		String result = "";
 		/*VAR*/
 		ReglementDAO reglement = null;
 		Consultation consultation = null;
